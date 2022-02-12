@@ -1,17 +1,21 @@
 <?php
-namespace FacadeDb;
+namespace Components\FacadeDb;
 /**
  * Classe para utilizar como base de uma DataBase Manager.
  * @author David Rusycki
  * @since 12/02/2022
  */
-abstract class Manager 
+abstract class Manager
 {
 
     const ARRAY = 1;
     const OBJECT = 2;
 
+    const POSTGRES = 1;
+    const MYSQL = 2;
+
     private \PDO $Pdo;
+    private string $type;
     protected static self $instance;
 
     /**
@@ -26,18 +30,10 @@ abstract class Manager
      * Retorna a senha para o PDO.
      */
     abstract public function getPassword();
-
     /**
-     * Retorna uma instância.
-     * @return self;
+     * Retorna o tipo de banco da instância atual.
      */
-    public static function getInstance() : self
-    {
-        if (empty(self::$instance)) {
-            self::$instance = new Self();
-        }
-        return self::$instance;
-    } 
+    abstract public function getType();
 
     /**
      * Executa o begin da transação.
@@ -87,7 +83,7 @@ abstract class Manager
     public function getAsArray(string $sSql) 
     {
         $statement = $this->getPdo()->query($sSql);
-        return $statement->fetchAll(\PDO::FETCH_COLUMN);
+        return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     /**
