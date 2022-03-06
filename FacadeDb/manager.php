@@ -34,6 +34,10 @@ abstract class Manager
      * Retorna o tipo de banco da instância atual.
      */
     abstract public function getType();
+    /**
+     * Retorna o nome da DataBase
+     */
+    abstract public function getBdName();
 
     /**
      * Executa o begin da transação.

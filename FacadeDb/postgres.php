@@ -7,9 +7,14 @@ namespace Components\FacadeDb;
  */
 class Postgres extends Manager {
 
+    /**
+     * Nome da DataBase
+     */
+    const NOME_BD = 'template';
+
     public function getConfigForPdo()
     {
-        return 'pgsql:host=localhost;dbname=dinamic';
+        return "pgsql:host=localhost;dbname={$this->getBdName()}";
     }
     
     public function getUser()
@@ -38,5 +43,10 @@ class Postgres extends Manager {
         }
         return self::$instance;
     } 
+
+    public function getBdName()
+    {
+        return self::NOME_BD;
+    }
 
 }
